@@ -60,16 +60,20 @@ class SearchView(View):
                     filter_args["instant_book"] = True
                 if superhost is True:
                     filter_args["host__superhost"] = True
+
                 for amenity in amenities:
                     filter_args["amenities"] = amenity
+
                 for facility in facilities:
                     filter_args["facilities"] = facility
+
                 qs = models.Room.objects.filter(**filter_args).order_by("-created")
                 paginator = Paginator(qs, 10, orphans=5)
 
                 page = request.GET.get("page", 1)
 
                 rooms = paginator.get_page(page)
+                print(rooms)
 
                 return render(
                     request, "rooms/search.html", {"form": form, "rooms": rooms}

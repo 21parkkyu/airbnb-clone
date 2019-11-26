@@ -20,10 +20,10 @@ class SearchForm(forms.Form):
     amenities = forms.ModelMultipleChoiceField(
         required=False,
         queryset=models.Amenity.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple,
     )
-    facility = forms.ModelMultipleChoiceField(
+    facilities = forms.ModelMultipleChoiceField(
         required=False,
         queryset=models.Facility.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple,
     )
