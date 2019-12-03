@@ -59,6 +59,9 @@ class User(AbstractUser):
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )
 
+    def get_absolute_url(self):
+        return reverse("users:profile", kwargs={"pk": self.pk})
+
     def verify_email(self):
         if self.email_verified is False:
             secret = uuid.uuid4().hex[:20]
@@ -78,5 +81,5 @@ class User(AbstractUser):
         return
 
     def first_photo(self):
-        photo, = self.photos.all()[:1]
+        (photo,) = self.photos.all()[:1]
         return photo.file.url
