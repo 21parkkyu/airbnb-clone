@@ -163,7 +163,7 @@ def kakao_callback(request):
         token_json = token_request.json()
         error = token_json.get("error", None)
         if error is not None:
-            raise KakaoException("can't get code")
+            raise KakaoException("can't get authorization code")
         access_token = token_json.get("access_token")
         profile_request = requests.get(
             "https://kapi.kakao.com/v2/user/me",
@@ -199,8 +199,8 @@ def kakao_callback(request):
         login(request, user)
         return redirect(reverse("core:home"))
     except KakaoException as e:
-        print(e)
         messages.error(request, e)
+        print(e)
         return redirect(reverse("users:login"))
 
 
@@ -267,3 +267,9 @@ def switch_hosting(request):
         request.session["is_hosting"] = True
     return redirect(reverse("core:home"))
 
+
+def switch_language(request):
+    lang = request.GET.get("lang", None)
+    if lang is not None:
+        request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    return HttpResponse(status=200)
